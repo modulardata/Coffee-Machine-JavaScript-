@@ -1,56 +1,68 @@
-const input = require('sync-input')
+const input = require('sync-input');
 
-let _water = parseInt(input('Write how many ml of water the coffee machine has:\n'))
-let _milk = parseInt(input('Write how many ml of milk the coffee machine has:\n'))
-let _beans = parseInt(input('Write how many grams of coffee beans the coffee machine has:\n'))
-let _cups = parseInt(input('Write how many cups of coffee you will need:\n'))
+let water = 400;
+let milk = 540;
+let beans = 120;
+let cups = 9;
+let money = 550;
 
+console.log(`The coffee machine has:
+${water} ml of water
+${milk} ml of milk
+${beans} g of coffee beans
+${cups} of disposable cups
+$${money} of money\n`);
 
-const maximumPossibleCups = (_water, _milk, _beans, _cups) => {
-    let water = _water
-    let milk = _milk
-    let beans = _beans
-    let cups = _cups
-    let waterPerCup = 200
-    let milkPerCup = 50
-    let beansPerCup = 15
-    let cupsPerCup = 1
-    let machineHasCupsWithMilk = 0
-    let cupsOfCoffeeWithMilk = 0
+let action = input('Write action (buy, fill, take):\n');
 
-    while (water >= waterPerCup && milk >= milkPerCup && beans >= beansPerCup && cups >= cupsPerCup) {
-        cupsOfCoffeeWithMilk += cupsPerCup
-        cups -= cupsPerCup
-        water -= waterPerCup
-        milk -= milkPerCup
-        beans -= beansPerCup
+if (action.toLowerCase() === 'buy') {
+    let chose = parseInt(input('What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:\n'));
+    if (chose === 1) {
+        if (water >= 250 && beans >= 15 && cups >= 1) {
+            water -= 250
+            beans -= 16
+            cups -= 1
+            money += 4
+            // console.log(`I have enough resources, making you a coffee!`)
+        }
+    } else if (chose === 2) {
+        if (water >= 350 && milk >= 75 && beans >= 20 && cups >= 1) {
+            water -= 350
+            milk -= 75
+            beans -= 20
+            cups -= 1
+            money += 7
+
+        }
+    } else if (chose === 3) {
+        if (water >= 200 && milk >= 100 && beans >= 12 && cups >= 1) {
+            water -= 200
+            milk -= 100
+            beans -= 12
+            cups -= 1
+            money += 6
+            // console.log(`I have enough resources, making you a coffee!`)
+        }
     }
+} else if (action.toLowerCase() === 'fill') {
+    let water_fill = parseInt(input('Write how many ml of water do you want to add:\n'))
+    let milk_fill = parseInt(input('Write how many ml of milk do you want to add:\n'))
+    let beans_fill = parseInt(input('Write how many grams of coffee beans do you want to add:\n'))
+    let cups_fill = parseInt(input('Write how many disposable cups of coffee do you want to add:\n'))
+    water += water_fill
+    milk += milk_fill
+    beans += beans_fill
+    cups += cups_fill
 
-    while (water >= waterPerCup && beans >= beansPerCup && milk >= milkPerCup) {
-        machineHasCupsWithMilk += cupsPerCup
-        cups -= cupsPerCup
-        milk -= milkPerCup
-        water -= waterPerCup
-        beans -= beansPerCup
-    }
-
-
-    if (machineHasCupsWithMilk) {
-        console.log(`Yes, I can make that amount of coffee (and even ${machineHasCupsWithMilk} more than that)`)
-    } else if (cupsOfCoffeeWithMilk === 1) {
-        console.log('Yes, I can make that amount of coffee')
-    } else if (machineHasCupsWithMilk === cupsOfCoffeeWithMilk) {
-        console.log('Yes, I can make that amount of coffee ')
-    } else {
-        console.log(`No, I can make only ${cupsOfCoffeeWithMilk} cups of coffee`)
-    }
-
-    // let cupsOfCoffeeWithMilkLeft = machineHasCupsWithMilk - cupsOfCoffeeWithMilk
-    // console.log("-> machineHasCupsWithMilk", machineHasCupsWithMilk);
-    // console.log("-> cupsOfCoffeeWithMilkLeft", cupsOfCoffeeWithMilkLeft);
-    // console.log(`${cupsOfCoffeeWithMilk} cup(s) of coffee`)
-
+} else if (action.toLowerCase() === 'take') {
+    console.log(`I gave you $${money}`)
+    money = 0
 }
 
 
-maximumPossibleCups(_water, _milk, _beans, _cups)
+console.log(`\nThe coffee machine has:
+${water} ml of water
+${milk} ml of milk
+${beans} g of coffee beans
+${cups} of disposable cups
+$${money} of money`);
